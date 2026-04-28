@@ -1,2 +1,2 @@
-# Curso-Js-Do-Zero
+# CursoJs
 Meu progresso no curso de JS
