@@ -1,0 +1,10 @@
+const Nome = "Mateus Almeida";
+const sobrenome = "Santos";
+const Idade = 21;
+const Peso = 53;
+const AlturaEmM = 1.70;
+let Imc = Peso / (AlturaEmM * AlturaEmM);
+let AnoNascimento= 2026-Idade;
+console.log(AnoNascimento);
+console.log(Nome, sobrenome, 'tem', Idade, ', pesa',Peso,'kg e tem', AlturaEmM ,' de altura e seu IMC é de', Imc);
+console.log(`${Nome} ${sobrenome} tem ${Idade} anos , pesa ${Peso} kg e tem ${AlturaEmM} de altura e seu IMC é de ${Imc}`);
