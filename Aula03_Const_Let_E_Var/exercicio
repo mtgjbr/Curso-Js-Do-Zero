@@ -8,3 +8,4 @@ let AnoNascimento= 2026-Idade;
 console.log(AnoNascimento);
 console.log(Nome, sobrenome, 'tem', Idade, ', pesa',Peso,'kg e tem', AlturaEmM ,' de altura e seu IMC é de', Imc);
 console.log(`${Nome} ${sobrenome} tem ${Idade} anos , pesa ${Peso} kg e tem ${AlturaEmM} de altura e seu IMC é de ${Imc}`);
+// o nome disso é template strings ${}
