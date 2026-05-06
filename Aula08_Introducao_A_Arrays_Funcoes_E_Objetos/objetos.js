@@ -36,7 +36,6 @@ const pessoa4 = {
         this.idade++;
         console.log(this.idade);
     }
-
 };
 pessoa4.Fala();
 pessoa4.IncrementaIdade();
