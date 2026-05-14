@@ -39,7 +39,7 @@ function EnquadramentoImc(imc) {
         exibicao("<strong> Obesidade grau 3 </strong>",true);
     }
 }
-function criaP(){
+function criaP(){   
  const p =document.createElement('p');
  return p
 }
