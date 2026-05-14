@@ -5,7 +5,7 @@ form.addEventListener('submit', function (e) {
     const inputAltura = e.target.querySelector('#altura'); //no caso o form
     const peso = Number(inputPeso.value);
     const altura = Number(inputAltura.value) //joga pra number, se não for possivel retorna um nam , considerado como false pelo if
-    if (!peso) { //se o peso for falso, executa , um nam
+    if (!peso) { //se o peso for falso, executa , neste caso se for um NAM
         setResultado('peso inválido', false);
         return;
     }

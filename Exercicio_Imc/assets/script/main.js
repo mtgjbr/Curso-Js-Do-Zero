@@ -20,7 +20,7 @@ function calculoImc(peso, altura) {
     } else if (peso < 12) { // === para atribuição
         resultado.innerHTML = "<strong> Peso inválido </strong>";
     }
-    EnquadramentoImc(imc);
+    EnquadramentoImc(imc); //errado, ele roda mesmo sem precisar pois falta o return , código errado
     
 }
 function EnquadramentoImc(imc) {
