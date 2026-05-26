@@ -11,6 +11,7 @@ for (let indice in frutas){ // le os indices ou chaves(objetos) e percorre ele c
     console.log(frutas[indice])
 }
 
+
 const pessoas = {
  nome:'mateus',
  sobrenome:'almeida',
