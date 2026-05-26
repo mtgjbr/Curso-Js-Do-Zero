@@ -1,0 +1,4 @@
+objeto global do navegador = window // topo da cadeia
+topo do dom = document// child de window
+da pra pesquisar elementos filho de dentro de elemento pesquisar, fica mais rapido procurar um h1 dentro de container do que dentro do document inteiro
+dom = navegador 

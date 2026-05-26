@@ -1,4 +1,4 @@
-const resultado = document.querySelector('.resultado')
+const tags = document.querySelector('.resultado')
 const form = document.querySelector('.form');
 
 
@@ -45,14 +45,14 @@ function criaP(){
 }
 
 function exibicao(msg,isValid){
-  resultado.innerHTML = ""
+  tags.innerHTML = ""
   const p = criaP();
   if (isValid) {
         p.classList.add('paragrafo-resultado') //adiciona a lista de atributos do p 
     } else {
         p.classList.add('bad')
     }
-  resultado.appendChild(p); //  adiciona o p como filho na div resultado
+  tags.appendChild(p); //  adiciona o p como filho na div resultado
    p.innerHTML = msg
 }
 form.addEventListener('submit', recebeEventoForm); //por só chamar a função recebeEventoform quando o submit for escutado, evita da execução vier antes da hora e o código não funcionar
