@@ -1,7 +1,9 @@
 function CriaHoraDosSegundos(segundos) {
-    const data = new Date(segundos * 1000); // adiciona 1 na hora zero
+    const data = new Date(segundos * 1000); // adiciona 1 seg na hora zero a cada repetição do laço
+    // como o date corrige automaticamente de 60 segs para 1 min, não há necessidade de nenhum tipo de correção manual
+    
     return data.toLocaleTimeString('pt-BR', {
-        hour12: false,
+        hour12: false, // formato 00:00:00 até 24 hrs
         timeZone: 'gmt' //considerando 01/01/1970 pegando a hora e minuto 0
     });
 }
@@ -9,7 +11,7 @@ function CriaHoraDosSegundos(segundos) {
 let segundos = 0; // o segundos se mantem mesmo com o clear interval, não se apaga com o pausa,muito mais pratico 
 let timer;
 
-function iniciaRelogio() {
+function iniciaRelogio() { 
     timer = setInterval(function () {
         segundos++;
         relogio.innerHTML = CriaHoraDosSegundos(segundos)
