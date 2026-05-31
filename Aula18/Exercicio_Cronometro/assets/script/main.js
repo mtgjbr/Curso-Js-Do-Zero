@@ -7,7 +7,9 @@ let minutosDecorridos = 0;
 let segundosDecorridos = 0;
 let horasDecorridas = 0
 let tempoPassado = 0;
-let inicial = 0
+let inicial = 0;
+let final = 0;
+
 function zeroAEsquerda(num) {
     if (num < 10) {
         return `0${num}`
@@ -27,38 +29,46 @@ function adicionaHora() {
     horasDecorridas++;
 }
 iniciar.addEventListener('click', function (event) { // quando clicado, ele pega o clique e chama a função anonima 
+    relogio.classList.add('play')
     inicial = Date.now();
 
     cronometro = setInterval(function () { //declaração como global porque o pausar precisa ver ele
-        let final = Date.now();
+        final = Date.now();
         segundosDecorridos = tempoPassado + (final - inicial);
         segundosDecorridos = Math.round(segundosDecorridos / 1000)
 
-        relogio.innerHTML = `${zeroAEsquerda(horasDecorridas)}:${zeroAEsquerda(minutosDecorridos)}:${zeroAEsquerda(segundosDecorridos)}`
+        relogio.innerHTML = `${zeroAEsquerda(horasDecorridas)}:${zeroAEsquerda(minutosDecorridos)}:${(zeroAEsquerda(segundosDecorridos))}`
         if (segundosDecorridos === 60) adicionaMinuto();
         // com só um = vc está atribuindo o valor  
         if (minutosDecorridos === 60) adicionaHora();
 
-    }, 1000);
+    }, 500);
+
 })
 pausar.addEventListener('click', function (event) {
-    console.log('cliquei no pausar');
-    setTimeout(function () {
-        tempoPassado = Date.now() - inicial; // guardar quanto tempo ja passou
-        console.log(segundosDecorridos)
-        console.log(tempoPassado)
-        clearInterval(cronometro)
+    if (tempoPassado !== 0) {
+        tempoPassado = 0;
 
-    })
+
+    }
+     relogio.classList.remove('play');
+     relogio.classList.add('pausado');
+    tempoPassado = Date.now() - inicial; // guardar quanto tempo ja passou para depois adicionar na conta   
+    let temp = tempoPassado / 1000;
+    clearInterval(cronometro);
+
+
 })
+
+
 zerar.addEventListener('click', function (event) {
-    console.log('cliquei no reinicar');
+
+    clearInterval(cronometro);
+    minutosDecorridos = (0);
+    horasDecorridas = (0);
+    inicial = '';
+    final = '';
+    // o problema que stava dando dos minutos ficarem com 0:0 é que foi deixado vazio as coisas, e ai sempre adiciona so 1 0 
+    // caso o segundosCorridos fique com 0 ele vai ficar quebrado pq 
+    relogio.innerHTML = '00:00:00';
 })
-
-// ideias pra fazer o relogio, cada botão separadamente, pro iniciar  fazer um laço while infinito
-
-//return data.toLocaleTimeString('pt-BR',{
-//   hour: '2-digit',
-//   minute:'2-digit',
-//   second:'2-digit',
-//   hour12:false
