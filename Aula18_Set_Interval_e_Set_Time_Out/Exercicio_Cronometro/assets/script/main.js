@@ -20,7 +20,7 @@ function adicionaMinuto() {
     inicial = Date.now(); // Date.now() é melhor pra zerar do que =0 pq 0 conta como numero e para fazer a operação vai dar mt grandes
     // reiniciar o inicial não o decorrido porque se não o  segundosdecorridos vai sempre atualizar com o inicial
     minutosDecorridos++;
-    segundosDecorridos = 0;
+
 }
 function adicionaHora() {
     // Date.now() é melhor pra zerar do que =0 pq 0 conta como numero e para fazer a operação vai dar mt grandes
