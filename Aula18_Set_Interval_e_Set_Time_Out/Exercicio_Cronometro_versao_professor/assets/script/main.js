@@ -1,3 +1,4 @@
+relogio = document.querySelector('.relogio');
 function CriaHoraDosSegundos(segundos) {
     const data = new Date(segundos * 1000); // adiciona 1 seg na hora zero a cada repetição do laço
     // como o date corrige automaticamente de 60 segs para 1 min, não há necessidade de nenhum tipo de correção manual
@@ -20,21 +21,22 @@ function iniciaRelogio() {
 
 
 document.addEventListener('click', function (e) {
+    
     const elementoclick = e.target;
 
-    if (elementoclick.contains(zerar)) { // se o elemento clicado tiver a classe zerar então
+    if (elementoclick.classList.contains('zerar')) { // se o elemento clicado tiver a classe zerar então
         console.log("voce clicou em zerar");
         clearInterval(timer)
         segundos = 0
         relogio.innerHTML = "00:00:00"
     }
-    if (elementoclick.contains(iniciar)) {
+    if (elementoclick.classList.contains('iniciar')) {
         console.log("voce clicou em iniciar");
         clearInterval(timer);
         iniciaRelogio();
         relogio.classList.remove('pausado');
     }
-    if (elementoclick.contains(pausar)) {
+    if (elementoclick.classList.contains('pausar')) {
         console.log("voce clicou em pausar");
         clearInterval(timer);
         relogio.classList.add('pausado');

@@ -5,7 +5,7 @@ const zerar = document.querySelector('.zerar');
 
 let minutosDecorridos = 0;
 let segundosDecorridos = 0;
-let horasDecorridas = 0
+let horasDecorridas = 0 
 let tempoPassado = 0;
 let inicial = 0;
 let final = 0;
