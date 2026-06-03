@@ -7,18 +7,20 @@ const enviar = document.querySelector('.enviar');
 const input = document.querySelector ('.texto');
 const pai = document.querySelector('.pai');
 
-function criaP(texto){
+function criaP(texto){ //cria um paragrafo e adiciona como filho do pai, adiciona o texto como o conteudo de p
  let p = document.createElement('p');
  pai.appendChild(p);
   p.innerHTML = texto;
 }
 
 
-enviar.addEventListener('click',function(e){
-    if(!input){
+enviar.addEventListener('click',function(e){ // se estiver algo escrito , pega o valor e chama o criap
+    if(input.value){
    const texto = input.value;
-   
-   criaP(texto)}else
+   input.value = " "
+   criaP(texto) 
+}else //caso o contrario escreve a frase insira um texto
+     
     criaP("insira um texto")
 })
 

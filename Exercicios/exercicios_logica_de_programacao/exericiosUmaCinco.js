@@ -24,7 +24,7 @@ const notaAluno = 10;
 function RecebeNota(nota){
     if(nota>6){
         console.log("você está aprovado");
-    } else if (nota === 5 || nota === 6){
+    } else if (nota >= 5 || nota <= 6){
         console.log("você está de recuperação")
     } else 
         console.log("você está reprovado")
@@ -37,7 +37,7 @@ RecebeNota(notaAluno)
 
 const frutas = ["goiaba", "uva", "laranja", "pera", "melancia","jaboticaba"]
 
-for (listaF of frutas){
+for (const listaF of frutas){
     if(listaF.length>5){
     console.log(listaF)}
     
@@ -58,13 +58,14 @@ for (chave in objHUmano){
 //Atividade 4 — Função + Math
 //Crie uma função sortearNumero(min, max) que retorna um número inteiro aleatório entre os dois valores.
 //Chame ela 5 vezes e exiba os resultados no console.
-min = 1
-max = 50
+const min = 1
+const max = 50
 function randomico( min,max){
-    let seila = Math.random() * (max - min + 1) + min;
-   seila = Math.floor(seila);
+    let seila = Math.floor(Math.random() * (max - min + 1) + min);
     return seila
 }
+console.log(randomico(min,max));
+console.log(randomico(min,max));
 console.log(randomico(min,max));
 console.log(randomico(min,max));
 console.log(randomico(min,max));
