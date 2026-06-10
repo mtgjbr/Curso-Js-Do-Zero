@@ -9,7 +9,7 @@
 function criaCarrinho(produto, preco) {
     const produtos = []
     return   {
-        adicionar: function (produto, preco) { produtos.push({ produto, preco }) },
+        adicionar: function(produto, preco) { produtos.push({ produto, preco }) },
         listar: function () { console.log(produtos) },
         total: function () {
             let total = 0 
