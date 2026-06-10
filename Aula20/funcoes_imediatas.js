@@ -12,5 +12,5 @@ return nome + " " + sobrenome;
  }
  falaNome();
  console.log(idade,peso,altura)
-})(10,80, 1.80); // cria uma função anonima e ja cria ela, protegendo o escopo global
+})(10,80, 1.80); // cria uma função anonima e ja cria ela, protegendo o escopo global e ja passa os parametros pra ela
 const nome="alberto"

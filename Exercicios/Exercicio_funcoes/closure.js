@@ -2,7 +2,8 @@
 // Mesmo a mãe tendo terminado, a filha ainda tem a mochila com o nome dentro.
 /**
  * Crie uma função criaSaudacao(saudacao) que retorna outra função. Essa função retornada recebe um nome e exibe a saudação completa:
-
+Usa pra proteger dados (como o saldo da conta que ninguém acessa direto) e pra criar funções especializadas 
+(como o criaSaudacao que guarda a saudação e aceita qualquer nome).
  * 
  * 
  */
