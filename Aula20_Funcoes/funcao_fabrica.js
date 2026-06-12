@@ -36,5 +36,5 @@ console.log(p1.fala("falando sobre JS"))
 console.log(p1.imc);
 console.log(p2.imc); // this sempre vai ser o que está chamado
 console.log(p1.nomeCompleto) // quando se coloca get não precisa mais de () porque ele deixou de ser uma função normal
-p1.nomeCompleto = "junin pica dura"
+p1.nomeCompleto = "junin ca dura"
 console.log(p1.nomeCompleto)

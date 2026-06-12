@@ -1,4 +1,4 @@
-function criaCalculadora() {
+function Calculadora() {
 
     return {
         display: document.querySelector(".display"), // display está dentro d3 um atributo do obj, acessavel com this.dislpay
@@ -75,7 +75,7 @@ function criaCalculadora() {
 
 }
 
-const calculadora = criaCalculadora()
+const calculadora = Calculadora()
 calculadora.inicia()
 
 //arrow function n muda a alteração do this

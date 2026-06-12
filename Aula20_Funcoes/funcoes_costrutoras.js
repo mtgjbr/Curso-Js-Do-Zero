@@ -11,7 +11,7 @@ function Pessoa(nome,sobrenome){
     this.metodo = ()=>{console.log("sou um abacate")}
 }
 
-const p1 = new Pessoa("Mateus","Almeida");
+const p1 = new Pessoa("Mateus","Almeida"); // pega esse molde e faça a p1
 const p2 = new Pessoa("Maria", "Oliveira");
 
 // palavra new cria num novo objeto vazio,faz o this apontar pro objeto vazio e retorna pra variavel o valor
@@ -19,4 +19,4 @@ const p2 = new Pessoa("Maria", "Oliveira");
 
 console.log(p1.nome)
 p1.metodo();
-p1.MetodoInterno();
+//p1.MetodoInterno();
