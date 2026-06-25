@@ -29,10 +29,10 @@ Camiseta.prototype.aumento = function(percent){ // mudando o comportamento de au
     this.preco = this.preco + (this.preco * (percent/100))
 }
 function  Caneca (nome,preco,material,estoque){
-    Produto.call(this,nome,preco);
+    Produto.call(this,nome,preco); // pega do produto o nome e o preço
     this.material = material;
     
-    Object.defineProperty(this,"estoque",{ //porque fazer eles aqui?
+    Object.defineProperty(this,"estoque",{ 
         enumerable:true,
         configurable:false,
         get:function(){ // mostra pra view
@@ -40,7 +40,7 @@ function  Caneca (nome,preco,material,estoque){
         },
         set:function(valor){ // define o valor
             if(typeof valor !== Number) return;
-            estoque = valor // porque ele define aqui? e porque faz do jeito mais dificil
+            estoque = valor // chama
         }
     })
 }
