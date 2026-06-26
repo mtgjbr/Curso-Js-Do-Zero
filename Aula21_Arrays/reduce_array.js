@@ -13,7 +13,7 @@ const numerosPar = numeros.reduce((acumulador, valor, indice, array) => {
     if (valor % 2 === 0) {
         acumulador.push(valor);
     }
-    return acumulador;
+    return acumulador; // precisa do return acumulador pra ele ser puxado com o valor na proxima iteração
 }, []) //define o valor deffaut dele como um array vazio
 console.log(numerosPar)
 
