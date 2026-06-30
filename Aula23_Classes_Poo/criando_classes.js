@@ -1,5 +1,5 @@
 // mesma coisa da função construtora, so que com um modo diferente de escrever
-// o qu eé uma classe? qual a diferança com outras coisas
+
 class Pessoa {
 constructor(nome,sobrenome){ // usado para passar parametros para a classe 
  this.nome = nome;
