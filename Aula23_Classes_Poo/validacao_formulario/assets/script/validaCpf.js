@@ -1,5 +1,5 @@
 class validaCpf{
-    constructor(cpfEnviado){
+    constructor(cpfEnviado){ 
    Object.defineProperty(this,"cpfLimpo",{
     writable:false,
     enumerable:false,
@@ -38,8 +38,7 @@ valida(){
     if(this.éSequencia()) return false;  // porque chama função com this
    this.geraNovoCpf() ; // verifica se foi gerado o novo cpf, se nao gerou cai no false
   
-    return this.novoCpf === this.cpfLimpo
-}
+    return this.novoCpf === this.cpfLimpo}
 }
 const validac = new validaCpf("070.987.720-03");
 console.log(validac.valida())
