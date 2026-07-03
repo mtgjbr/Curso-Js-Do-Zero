@@ -39,7 +39,7 @@ Promise.race(promises).then(function(valor){
     console.log(e)
 })
 //promise.resolve: retorna uma promessa resolvida
-// o que seria uma promessa rejeitada ou resolvida?
+
 function baixaPagina(){
      const emCache = true;
      if(emCache){
