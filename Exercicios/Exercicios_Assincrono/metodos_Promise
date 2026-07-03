@@ -1,0 +1,18 @@
+function tarefa(num,tempo){
+    return new Promise((resolve,reject)=>{
+setTimeout(_=>{
+    resolve(`tarefa ${num} concluida`)
+        
+    },tempo);    
+}
+)}
+tarefa(1,2000)
+
+const tarefas = [
+    tarefa1 = tarefa(1,4000),
+    tarefa2 = tarefa(2,3000),
+    tarefa3 = tarefa(3,1000)
+]
+
+
+Promise.all(tarefas).then(msg=>console.log(msg))
