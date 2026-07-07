@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+:root{
+    --primary-color: rgb(0, 0, 0) ;
+     --primary-color-darker: rgb(3, 36, 28) ;
+     --davi-color:blue;
+     --davi-color2:yellow;
+}
+
+*{
+ box-sizing: border-box;
+ outline: 0;
+ 
+}
+body{
+    margin: 0;
+    padding: 0;
+    background:var(--primary-color);
+    font-family:'open-sans', sans-serif;
+    font-size: 1.3em;
+    line-height: 1.5em;
+}
+.container{
+    max-width: 640px;
+    margin: 500px auto;
+    background: floralwhite;
+    padding: 20px;
+    border-radius: 10px;
+   
+    
+}
+form input, form label, form button{
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+form input{
+    font-size: 24px;
+    height: 50px;
+    padding: 0 20px;
+
+}
+form input:focus{
+    outline: 1px solid var(--primary-color);
+}
+button{
+  border: none;
+    background: var(--primary-color);
+    color: rgb(229, 230, 231);
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+
+    /* DEIXA O BOTÃO GRANDE */
+    padding: 15px 40px;      /* Espaço interno para engordar o botão */
+    border-radius: 8px;      /* Arredonda os cantos */
+    
+    /* TENTA CENTRALIZAR (Só funciona se o pai permitir) */
+    margin: 20px auto 0 auto; /* Empurra o botão para longe do texto e tenta centralizar */
+    display: block;          /* Necessário para a margem 'auto' funcionar */
+  
+}
+form button:hover{
+    background: var(--primary-color-darker);
+}
+
+.frase {
+    font-weight: bold; /* Deixa o texto em negrito */
+    font-size: 24px;   /* Aumenta o tamanho da fonte (ajuste conforme necessário) */
+  }
+
+ 
