@@ -1,0 +1,22 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": "ie 11"
+    }]
+  ]
+}
+
+// Por que o Babel não mudava nada: a partir do Babel 8, o
+// preset-env parou de compilar pra ES5 por padrão (agora usa
+// ~ES2023 como alvo), então meu código já "passava" sem mudanças.
+//
+// Solução: criar babel.config.json dizendo o alvo (targets)
+// que eu quero suportar, tipo "ie 11". Aí o Babel volta a
+// transformar tudo de verdade.
+//
+// babel.config.json:
+// {
+//   "presets": [
+//     ["@babel/preset-env", { "targets": "ie 11" }]
+//   ]
+// }

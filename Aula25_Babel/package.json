@@ -1,0 +1,21 @@
+{
+  "name": "aula25_babel_e_webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "babel_e_can_use.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel":"babel .babel_e_can_use -o .buble.js --presets=@babel/env -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": { 
+    "@babel/cli": "^8.0.1",
+    "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.2"
+    
+  }
+  
+}
