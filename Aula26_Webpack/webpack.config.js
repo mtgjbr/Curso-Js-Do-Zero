@@ -17,7 +17,14 @@ module.exports={ //tudo que tiver aqui vai ser exportado
     use:{
         loader:'babel-loader',
         options:{
-           presets:['@babel/env']
+            sourceType: 'unambiguous', 
+           presets:[
+               ['@babel/preset-env', {
+                   useBuiltIns: 'usage',
+                   corejs: 3,
+                    modules: 'commonjs'
+               }]
+           ]
         }
     }
 
