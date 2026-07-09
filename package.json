@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "webpack": "^5.108.4",
+    "webpack-cli": "^7.2.1"
+  },
+  "dependencies": {
+    "core-js": "^3.49.0",
+    "regenerator-runtime": "^0.14.1"
+  }
+}
