@@ -1,0 +1,25 @@
+{
+  "name": "aula26_webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "wp.js",
+  "scripts": {
+    "dev": "webpack -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
+    "babel-loader": "^8.4.1",
+    "core-js": "^3.49.0",
+    "webpack": "^5.108.4",
+    "webpack-cli": "^7.2.1"
+  },
+  "dependencies": {
+    "regenerator-runtime": "^0.14.1"
+  }
+}
