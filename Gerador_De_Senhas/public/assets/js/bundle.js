@@ -703,7 +703,7 @@ var Simbolos = exports.Simbolos = /*#__PURE__*/function () {
   return _createClass(Simbolos, null, [{
     key: "rand",
     value: function rand() {
-      return Math.floor(Math.random() * (28 - 0 + 1)) + 0;
+      return Math.floor(Math.random() * (Simbolos.alfabeto.length - 1 - 0 + 1)) + 0;
     }
   }, {
     key: "sorteio",
@@ -4967,6 +4967,15 @@ botao.addEventListener('click', function (e) {
   if (boxMaiusculas.checked) tiposAtivos.push(_maiusculas.Maiuscula);
   if (boxMinusculas.checked) tiposAtivos.push(_minusculas.Minusculas);
   if (boxSimbolos.checked) tiposAtivos.push(_simbolos.Simbolos);
+  if (!quantidadeC) {
+    senha = "Insira uma quantidade";
+    Resultado.innerHTML = senha;
+    return;
+  }
+  if (tiposAtivos.length === 0) {
+    senha = "marque uma caixa";
+    return Resultado.innerHTML = senha;
+  }
   for (var i = 0; i < quantidadeC; i++) {
     var classeDaVez = tiposAtivos[i % tiposAtivos.length];
     //Se o número da esquerda é maior ou igual ao da direita → você divide de verdade e vê o que sobra (tipo 7 % 3: cabe 2 vezes, sobra 1)

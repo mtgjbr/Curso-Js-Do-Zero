@@ -13,7 +13,7 @@ const boxSimbolos = document.querySelector('#simbolos');
 const Resultado = document.querySelector('.resultado')
 
 
-let senha= "";
+let senha = "";
 
 
 botao.addEventListener('click', e => {
@@ -26,12 +26,24 @@ botao.addEventListener('click', e => {
     if (boxMinusculas.checked) tiposAtivos.push(Minusculas);
     if (boxSimbolos.checked) tiposAtivos.push(Simbolos);
 
+
+    if (!quantidadeC){
+      senha = "Insira uma quantidade"   
+        Resultado.innerHTML = senha;
+        return
+    } 
+    if (tiposAtivos.length === 0) {
+        senha = "marque uma caixa"
+        return  Resultado.innerHTML = senha;
+    }
+    
     for (let i = 0; i < quantidadeC; i++) {
-         const classeDaVez = tiposAtivos[i % tiposAtivos.length];
-         //Se o número da esquerda é maior ou igual ao da direita → você divide de verdade e vê o que sobra (tipo 7 % 3: cabe 2 vezes, sobra 1)
-         //Se o número da esquerda é menor que o da direita → nem cabe uma vez, então sobra ele mesmo, inteiro (tipo 2 % 3 = 2, ou 0 % 5 = 0)
+        const classeDaVez = tiposAtivos[i % tiposAtivos.length];
+        //Se o número da esquerda é maior ou igual ao da direita → você divide de verdade e vê o que sobra (tipo 7 % 3: cabe 2 vezes, sobra 1)
+        //Se o número da esquerda é menor que o da direita → nem cabe uma vez, então sobra ele mesmo, inteiro (tipo 2 % 3 = 2, ou 0 % 5 = 0)
         senha += classeDaVez.sorteio(); // nome do metodo generico pra toda class puder usar
     }
+    
     Resultado.innerHTML = senha;
 
 })

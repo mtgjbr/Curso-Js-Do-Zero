@@ -5,7 +5,7 @@ class Simbolos{
     }
     static alfabeto = "!@#$%^&*()_+-=[]{}|;':,./<>?".split("");
    static rand(){
-     return Math.floor(Math.random() * (28 - 0 + 1)) + 0
+     return Math.floor(Math.random() * ((Simbolos.alfabeto.length-1) - 0 + 1)) + 0
    }
 
    static sorteio(){
