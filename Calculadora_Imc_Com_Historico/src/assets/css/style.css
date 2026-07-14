@@ -53,6 +53,6 @@ button{
 form button:hover{
     background: var(--primary-color-darker);
 }
-.resultado{
- 
-}
+.normal { color: green; }
+.abaixo-peso { color: orange; }
+.acima-peso { color: red; }
