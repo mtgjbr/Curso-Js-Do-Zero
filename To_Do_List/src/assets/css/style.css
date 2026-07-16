@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+    --primary-color: rgb(14, 142, 112);
+    --primary-color-darker: rgb(3, 36, 28);
+}
+
+* {
+    box-sizing: border-box;
+    outline: 0;
+
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--primary-color);
+    font-family: 'open-sans', sans-serif;
+    font-size: 1.3em;
+    line-height: 1.5em;
+}
+
+.container {
+    max-width: 640px;
+    margin: 50px auto;
+    background: floralwhite;
+    padding: 20px;
+    border-radius: 10px;
+
+}
+
+.input,
+.label,
+.button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.input {
+    font-size: 24px;
+    height: 50px;
+    padding: 0 20px;
+
+}
+
+.input:focus {
+    outline: 1px solid var(--primary-color);
+}
+
+.button {
+    border: none;
+    background: var(--primary-color);
+    color: aliceblue;
+    font-size: 18px;
+    font: weight 700px;
+    ;
+    height: 50px;
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+.button:hover {
+    background: var(--primary-color-darker);
+}
+
+.Tarefa_Concluida {
+    background-color: rgb(60, 215, 60);
+    margin-left: 15px;
+}
+
+.Cancelar_Tarefa {
+    background-color: rgb(186, 66, 33);
+    margin-left: 5px;
+}
+
+.tarefa_Realizada {
+    color: rgb(26, 165, 37);
+    font-weight: bold;
+    text-decoration: line-through;
+}
+.Concluir_Todas_As_Tarefas,.Cancelar_Todas_As_Tarefas{
+    width:min-content;
+    height: min-content;
+   
+}
