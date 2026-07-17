@@ -1,26 +1,29 @@
-const conteudo = document.querySelector('.tarefa');
-const resultado = document.querySelector('.resultado');
-const escolha =document.querySelector('.escolha'); // pensar em uma maneira para nao precisar desse escolha aqui
+
 
 export default class listaDeTarefas {
-
-    salvaTarefa() {
-
-
+    constructor() {
+        this.escolha = document.querySelector('.escolha')
+        this.resultado = document.querySelector('.resultado');
+        this.conteudo = document.querySelector('.tarefa');
     }
 
-    criaQuadroTarefa() {
-        const li = this.criali();
-        li.innerText = conteudo.value;
-        const botaoConcluido = this.criabotao("Tarefa_Concluida");
-        const botaoCancelar = this.criabotao("Cancelar_Tarefa");
-        li.appendChild(botaoConcluido);
-        li.appendChild(botaoCancelar);
-        resultado.appendChild(li);
-        conteudo.value = ""
+    criaQuadroTarefa(estado) {
+        if (this.conteudo.value === "") {
+            alert("Adicione uma tarefa")
+            return
+        } else {
 
-
+            const li = this.criali();
+            li.innerText = this.conteudo.value;
+            const botaoConcluido = this.criabotao("Tarefa_Concluida");
+            const botaoCancelar = this.criabotao("Excluir_Tarefa");
+            li.appendChild(botaoConcluido);
+            li.appendChild(botaoCancelar);
+            this.resultado.appendChild(li);
+            this.conteudo.value = "";
+        }
     }
+
     criali() {
         const li = document.createElement('li');
         return li
@@ -37,22 +40,75 @@ export default class listaDeTarefas {
 
     }
     tarefaConcluida(el) {
+
         const li = el.parentElement;
-        li.classList.add('tarefa_Realizada');
-        console.log(li)
+        if (li.classList.contains('tarefa_Realizada')) {
+            li.classList.remove("tarefa_Realizada")
+        } else {
+            li.classList.add('tarefa_Realizada');
+
+        }
     }
-    selecionarTodos(el){
+    selecionarTodos(el) {
         const concluirTodos = this.criabotao("Concluir_Todas_As_Tarefas");
         const cancelartodos = this.criabotao("Cancelar_Todas_As_Tarefas");
         el.remove()
-        escolha.appendChild(cancelartodos)
-        escolha.appendChild(concluirTodos)
+        this.escolha.appendChild(cancelartodos)
+        this.escolha.appendChild(concluirTodos)
     }
-    tarefasConcluida(){
-       const juju= document.querySelectorAll('li');
-       //fazer for each ou algum for para iterar e adicionar cada li com a tag concluida, fazer mesma logica para o cancelar
-        console.log(juju)
+    concluirTodos() {
+        const todosLi = document.querySelectorAll('li');
+        
+        for (let li of todosLi) {
+            li.classList.add('tarefa_Realizada')
+        }
+        this.devolveBotao();
 
+    }
+    cancelartodos() {
+        const todosLi = document.querySelectorAll('li');
+        for (let li of todosLi) {
+            li.remove();
+        }
+        this.devolveBotao();
+    }
+    devolveBotao() {
+        document.querySelectorAll('.Concluir_Todas_As_Tarefas, .Cancelar_Todas_As_Tarefas').forEach(botao => botao.remove());
+        const botaoSelecionarTodos = this.criabotao("selecionar_todos");
+        this.escolha.appendChild(botaoSelecionarTodos);
+    }
+
+
+    salvaTarefa() {
+        const todosLi = document.querySelectorAll('li');
+        const arrayLi = []
+        for (let li of todosLi) {
+            li = li.textContent
+            li = li.replace("Tarefa_Concluida", " ");
+            li = li.replace("Excluir_Tarefa", " ");
+            arrayLi.push(li)
+        }
+        console.log(arrayLi);
+        const arrayLiJSON = JSON.stringify(arrayLi)
+        localStorage.setItem("dados salvos", arrayLiJSON);
+
+    }
+    recuperarDadosalvos() {
+        const dadoSalvo = localStorage.getItem("dados salvos");
+        const tabelaLis = JSON.parse(dadoSalvo);
+        for (let li of tabelaLis) {
+            this.criaQuadroTarefaDadosSalvos(li)
+        }
+
+    }
+    criaQuadroTarefaDadosSalvos(texto) {
+        const li = this.criali();
+        li.innerText = texto;
+        const botaoConcluido = this.criabotao("Tarefa_Concluida");
+        const botaoCancelar = this.criabotao("Excluir_Tarefa");
+        li.appendChild(botaoConcluido);
+        li.appendChild(botaoCancelar);
+        this.resultado.appendChild(li);
 
     }
 }

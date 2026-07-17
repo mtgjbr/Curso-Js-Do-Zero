@@ -2,21 +2,22 @@
 
 :root {
     --primary-color: rgb(14, 142, 112);
+    --primary-color-light: rgb(30, 185, 148);
     --primary-color-darker: rgb(3, 36, 28);
 }
 
 * {
     box-sizing: border-box;
     outline: 0;
-
 }
 
 body {
     margin: 0;
     padding: 0;
-    background: var(--primary-color);
-    font-family: 'open-sans', sans-serif;
-    font-size: 1.3em;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-darker) 100%);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.1em;
     line-height: 1.5em;
 }
 
@@ -24,63 +25,154 @@ body {
     max-width: 640px;
     margin: 50px auto;
     background: floralwhite;
-    padding: 20px;
-    border-radius: 10px;
-
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
-.input,
-.label,
-.button {
+.container h1 {
+    text-align: center;
+    color: var(--primary-color-darker);
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+/* Botão "selecionar todos" e a área onde ele/os botões de ação em massa aparecem */
+.escolha {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.selecionar_todos,
+.Concluir_Todas_As_Tarefas,
+.Cancelar_Todas_As_Tarefas {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    color: aliceblue;
+    background: var(--primary-color);
+    transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.selecionar_todos:hover,
+.Concluir_Todas_As_Tarefas:hover,
+.Cancelar_Todas_As_Tarefas:hover {
+    background: var(--primary-color-darker);
+    transform: translateY(-1px);
+}
+
+.Cancelar_Todas_As_Tarefas {
+    background: rgb(186, 66, 33);
+}
+
+.Cancelar_Todas_As_Tarefas:hover {
+    background: rgb(140, 45, 20);
+}
+
+/* Input + botão de adicionar tarefa */
+.tarefa {
     display: block;
     width: 100%;
-    margin-bottom: 10px;
-}
-
-.input {
-    font-size: 24px;
+    font-size: 20px;
     height: 50px;
     padding: 0 20px;
-
+    margin-bottom: 12px;
+    border: 2px solid rgb(220, 220, 220);
+    border-radius: 8px;
+    transition: border-color 0.2s ease;
 }
 
-.input:focus {
-    outline: 1px solid var(--primary-color);
+.tarefa:focus {
+    border-color: var(--primary-color);
 }
 
-.button {
+.adicionar_tarefas {
+    display: block;
+    width: 100%;
     border: none;
+    border-radius: 8px;
     background: var(--primary-color);
     color: aliceblue;
     font-size: 18px;
-    font: weight 700px;
-    ;
+    font-weight: 700;
     height: 50px;
     cursor: pointer;
-    margin-top: 30px;
+    margin-bottom: 25px;
+    transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.button:hover {
+.adicionar_tarefas:hover {
     background: var(--primary-color-darker);
+    transform: translateY(-1px);
+}
+
+/* Lista de tarefas */
+.resultado {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.resultado li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border-left: 5px solid var(--primary-color-light);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.resultado li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.resultado li.tarefa_Realizada {
+    border-left-color: rgb(60, 215, 60);
+    background: rgb(240, 250, 240);
 }
 
 .Tarefa_Concluida {
     background-color: rgb(60, 215, 60);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
     margin-left: 15px;
+    cursor: pointer;
+    transition: background 0.2s ease;
 }
 
-.Cancelar_Tarefa {
+.Tarefa_Concluida:hover {
+    background-color: rgb(45, 175, 45);
+}
+
+.Excluir_Tarefa {
     background-color: rgb(186, 66, 33);
-    margin-left: 5px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    margin-left: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.Excluir_Tarefa:hover {
+    background-color: rgb(140, 45, 20);
 }
 
 .tarefa_Realizada {
     color: rgb(26, 165, 37);
     font-weight: bold;
     text-decoration: line-through;
-}
-.Concluir_Todas_As_Tarefas,.Cancelar_Todas_As_Tarefas{
-    width:min-content;
-    height: min-content;
-   
 }
