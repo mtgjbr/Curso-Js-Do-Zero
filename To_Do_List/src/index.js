@@ -16,7 +16,7 @@ document.addEventListener('click', (e) => {
         lista.criaQuadroTarefa(false);
     }
     if (el.classList.contains('Tarefa_Concluida')) {
-        lista.tarefaConcluida(el);
+        lista.concluirTarefa(el);
     }
     if (el.classList.contains('Excluir_Tarefa')) {
         lista.cancelarTarefa(el);
@@ -28,7 +28,7 @@ document.addEventListener('click', (e) => {
         lista.concluirTodos();
     }
      if(el.classList.contains('Cancelar_Todas_As_Tarefas')){
-        lista.cancelartodos();
+        lista.cancelarTodos();
     }
     
 })

@@ -39,7 +39,7 @@ export default class listaDeTarefas {
         el.parentElement.remove();
 
     }
-    tarefaConcluida(el) {
+    concluirTarefa(el) {
 
         const li = el.parentElement;
         if (li.classList.contains('tarefa_Realizada')) {
@@ -65,7 +65,7 @@ export default class listaDeTarefas {
         this.devolveBotao();
 
     }
-    cancelartodos() {
+    cancelarTodos() {
         const todosLi = document.querySelectorAll('li');
         for (let li of todosLi) {
             li.remove();

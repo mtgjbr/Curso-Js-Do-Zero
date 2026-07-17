@@ -730,8 +730,8 @@ var listaDeTarefas = exports["default"] = /*#__PURE__*/function () {
       el.parentElement.remove();
     }
   }, {
-    key: "tarefaConcluida",
-    value: function tarefaConcluida(el) {
+    key: "concluirTarefa",
+    value: function concluirTarefa(el) {
       var li = el.parentElement;
       if (li.classList.contains('tarefa_Realizada')) {
         li.classList.remove("tarefa_Realizada");
@@ -767,8 +767,8 @@ var listaDeTarefas = exports["default"] = /*#__PURE__*/function () {
       this.devolveBotao();
     }
   }, {
-    key: "cancelartodos",
-    value: function cancelartodos() {
+    key: "cancelarTodos",
+    value: function cancelarTodos() {
       var todosLi = document.querySelectorAll('li');
       var _iterator2 = _createForOfIteratorHelper(todosLi),
         _step2;
@@ -6452,7 +6452,7 @@ document.addEventListener('click', function (e) {
     lista.criaQuadroTarefa(false);
   }
   if (el.classList.contains('Tarefa_Concluida')) {
-    lista.tarefaConcluida(el);
+    lista.concluirTarefa(el);
   }
   if (el.classList.contains('Excluir_Tarefa')) {
     lista.cancelarTarefa(el);
@@ -6464,7 +6464,7 @@ document.addEventListener('click', function (e) {
     lista.concluirTodos();
   }
   if (el.classList.contains('Cancelar_Todas_As_Tarefas')) {
-    lista.cancelartodos();
+    lista.cancelarTodos();
   }
 });
 })();
