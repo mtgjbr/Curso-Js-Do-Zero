@@ -695,7 +695,7 @@ var listaDeTarefas = exports["default"] = /*#__PURE__*/function () {
   }
   return _createClass(listaDeTarefas, [{
     key: "criaQuadroTarefa",
-    value: function criaQuadroTarefa(estado) {
+    value: function criaQuadroTarefa() {
       if (this.conteudo.value === "") {
         alert("Adicione uma tarefa");
         return;
@@ -821,6 +821,9 @@ var listaDeTarefas = exports["default"] = /*#__PURE__*/function () {
     key: "recuperarDadosalvos",
     value: function recuperarDadosalvos() {
       var dadoSalvo = localStorage.getItem("dados salvos");
+      if (!dadoSalvo) {
+        return; // se nao houver dados salvos ele retornar null o que cai aqui
+      }
       var tabelaLis = JSON.parse(dadoSalvo);
       var _iterator4 = _createForOfIteratorHelper(tabelaLis),
         _step4;
@@ -6443,28 +6446,37 @@ var _lista_de_tarefas = _interopRequireDefault(__webpack_require__(/*! ./modules
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var lista = new _lista_de_tarefas["default"]();
 lista.recuperarDadosalvos();
+var operacoes = {
+  // cria array de objetos com todos os metodos
+  "adicionar_tarefa": function adicionar_tarefa() {
+    return lista.criaQuadroTarefa(false);
+  },
+  "Tarefa_Concluida": function Tarefa_Concluida(el) {
+    return lista.concluirTarefa(el);
+  },
+  // cada membro do array é uma arraow function que chama a função, se fosse só o metodo ele seria chamado assim que fosse criado, causando erro
+  'Excluir_Tarefa': function Excluir_Tarefa(el) {
+    return lista.cancelarTarefa(el);
+  },
+  'selecionar_todos': function selecionar_todos(el) {
+    return lista.selecionarTodos(el);
+  },
+  'Concluir_Todas_As_Tarefas': function Concluir_Todas_As_Tarefas() {
+    return lista.concluirTodos();
+  },
+  'Cancelar_Todas_As_Tarefas': function Cancelar_Todas_As_Tarefas() {
+    return lista.cancelarTodos();
+  }
+};
 window.addEventListener('beforeunload', function (e) {
   lista.salvaTarefa();
 });
 document.addEventListener('click', function (e) {
   var el = e.target;
-  if (el.classList.contains('adicionar_tarefas')) {
-    lista.criaQuadroTarefa(false);
-  }
-  if (el.classList.contains('Tarefa_Concluida')) {
-    lista.concluirTarefa(el);
-  }
-  if (el.classList.contains('Excluir_Tarefa')) {
-    lista.cancelarTarefa(el);
-  }
-  if (el.classList.contains('selecionar_todos')) {
-    lista.selecionarTodos(el);
-  }
-  if (el.classList.contains('Concluir_Todas_As_Tarefas')) {
-    lista.concluirTodos();
-  }
-  if (el.classList.contains('Cancelar_Todas_As_Tarefas')) {
-    lista.cancelarTodos();
+  var chave = el.textContent; //cria a chave, a cada botao clicado ele vai ter o valor do nome do texto do botao
+  if (operacoes[chave]) {
+    // se o operacoes[chaves] der true é pq tem alguma chave que bate com o valor
+    operacoes[chave](el); // executa 
   }
 });
 })();

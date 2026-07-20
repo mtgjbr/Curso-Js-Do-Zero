@@ -7,7 +7,7 @@ export default class listaDeTarefas {
         this.conteudo = document.querySelector('.tarefa');
     }
 
-    criaQuadroTarefa(estado) {
+    criaQuadroTarefa() {
         if (this.conteudo.value === "") {
             alert("Adicione uma tarefa")
             return
@@ -95,6 +95,9 @@ export default class listaDeTarefas {
     }
     recuperarDadosalvos() {
         const dadoSalvo = localStorage.getItem("dados salvos");
+        if(!dadoSalvo){
+            return // se nao houver dados salvos ele retornar null o que cai aqui
+        }
         const tabelaLis = JSON.parse(dadoSalvo);
         for (let li of tabelaLis) {
             this.criaQuadroTarefaDadosSalvos(li)
