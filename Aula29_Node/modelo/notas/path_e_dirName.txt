@@ -1,0 +1,41 @@
+// ========================================
+// path.resolve(__dirname, ...) - PRA QUE SERVE
+// ========================================
+
+// __dirname = variável especial do Node que guarda o caminho ABSOLUTO
+// da pasta onde ESSE arquivo específico está salvo
+// (não importa de onde o comando "node server.js" foi executado)
+
+// path.resolve() junta pedaços de caminho e devolve um caminho ABSOLUTO
+// path.resolve(__dirname, 'src', 'views')
+// = "a partir da pasta onde está o server.js, entra em src, depois em views"
+
+
+// ----------------------------------------
+// POR QUE NÃO USAR SÓ UMA STRING RELATIVA?
+// ----------------------------------------
+// app.set('views', './src/views')  ❌ arriscado
+//
+// Caminho relativo (./src/views) depende de ONDE O TERMINAL ESTÁ (cwd),
+// não de onde o arquivo server.js está salvo.
+// Se alguém rodar o comando de outra pasta, ou mudar a estrutura do projeto,
+// esse caminho pode apontar pro lugar errado e quebrar.
+
+
+// ----------------------------------------
+// path.resolve() vs path.join()
+// ----------------------------------------
+// path.join()    → só concatena os pedaços, ajeitando as barras (/ ou \)
+// path.resolve() → concatena E garante que o resultado final seja um
+//                   caminho ABSOLUTO (resolve '..' e '.' também)
+//
+// Como __dirname já é absoluto, aqui os dois dão o mesmo resultado.
+// path.resolve() é mais "seguro por padrão" pra esse tipo de uso.
+
+
+// ----------------------------------------
+// RESUMO
+// ----------------------------------------
+// Usar path.resolve(__dirname, ...) garante que o caminho da pasta
+// "views" sempre vai estar correto, não importa de onde o servidor
+// for iniciado ou em qual computador/sistema operacional ele rodar.

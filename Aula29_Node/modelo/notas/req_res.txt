@@ -1,0 +1,81 @@
+// ============================================
+// REQ e RES - O QUE SÃO
+// ============================================
+// Toda rota do Express recebe (req, res) NESSA ORDEM
+// O Express não liga pro NOME que você dá, só pra POSIÇÃO
+// (por isso "app.get('/', (res, req) => {})" seria um erro sutil e perigoso)
+
+// req (request)  = objeto com TUDO que veio do cliente (navegador/postman/etc)
+// res (response) = objeto que você usa pra RESPONDER pro cliente
+
+// só pode dar UMA resposta por requisição!
+// chamar res.send() mais de uma vez quebra com erro (ERR_HTTP_HEADERS_SENT)
+
+
+// ============================================
+// AS 3 FORMAS DE RECEBER DADOS NO req
+// ============================================
+
+// 1) req.params → dados que vêm DENTRO da própria URL (rota)
+// rota:  /usuario/:id
+// url:   /usuario/42
+// req.params.id === '42'
+
+// 2) req.query → dados depois do "?" na URL
+// url:   /busca?nome=lucas&idade=20
+// req.query.nome  === 'lucas'
+// req.query.idade === '20'
+
+// 3) req.body → dados enviados no CORPO da requisição (formulários POST, JSON)
+// precisa de middleware pra funcionar:
+// app.use(express.urlencoded({ extended: true })) → formulários HTML
+// app.use(express.json())                          → JSON (fetch/API)
+// req.body.nome
+
+// IMPORTANTE: req.algumaCoisa (direto, sem passar por params/query/body)
+// só existe se ALGUM MIDDLEWARE criou isso antes. Não existe "req.idade" 
+// automático nem nada do tipo — o Express não promove nada pro req sozinho.
+
+
+// ============================================
+// PARÂMETRO OPCIONAL NA ROTA (Express 5)
+// ============================================
+// Express 4:  '/testes/:id?'          (não funciona mais no Express 5)
+// Express 5:  '/testes{/:id}'         (cada {} é um segmento opcional)
+// '/testes{/:id}{/:outro}'  → aceita /testes , /testes/1 , /testes/1/2
+
+
+// ============================================
+// module.exports vs exports
+// ============================================
+// module.exports = algo        → SUBSTITUI tudo (exporta só uma função/classe/valor)
+// exports.nome = algo          → ADICIONA propriedade num objeto (várias exportações)
+// exports = algo               → NÃO FUNCIONA, quebra a referência com module.exports
+
+// cada arquivo .js tem seu PRÓPRIO module/exports, isolado dos outros arquivos
+
+
+// ============================================
+// path.resolve(__dirname, ...)
+// ============================================
+// __dirname = pasta onde O ARQUIVO está salvo (sempre absoluto, fixo)
+// path.resolve() = junta pedaços de caminho e garante um caminho ABSOLUTO
+// evita bug de caminho relativo (./pasta) quebrar se o comando for
+// executado de um diretório diferente
+
+
+// ============================================
+// express.static()
+// ============================================
+// app.use(express.static(path.resolve(__dirname, 'public')))
+// tudo DENTRO de "public" fica acessível na URL SEM precisar escrever "public"
+// public/assets/css/style.css  →  /assets/css/style.css
+
+
+// ============================================
+// NODEMON vs WEBPACK vs BABEL
+// ============================================
+// nodemon → reinicia o SERVIDOR (Node) quando arquivos back-end mudam
+// babel   → traduz JS moderno pra versão compatível com navegadores
+// webpack → junta vários arquivos JS do FRONT-END em 1 bundle pro navegador
+// cada um atua numa parte diferente do projeto (servidor vs navegador)
