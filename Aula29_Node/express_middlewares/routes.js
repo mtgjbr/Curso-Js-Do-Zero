@@ -4,7 +4,8 @@ const homeController = require('./src/controllers/homeController')
 const contatocontroller = require('./src/controllers/contatocontroller')
 
 function Meumiddleware(req,res,next){
-req.session = {nome:"mateus", sobrenome:"almeida"}
+req.session.nome = "Mateus"
+req.session.sobrenome ="almeida"
 console.log();
 console.log("passei no meu middleware");
 console.log()

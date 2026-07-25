@@ -10,13 +10,38 @@ app.emit('pronto') //manda o sinal que o servidor conectou pra so depois lançar
 })
  .catch(e=>console.log(e)) 
 
+ const session = require('express-session');
+ const {MongoStore} = require('connect-mongo');
+ const flash = require('connect-flash');
+
 
 const routes = require('./routes')
 const path = require('path');
-const {middlewareGlobal} = require('./src/middlewares/middlewares')
+const csrf = require('csurf')
+const helmet = require('helmet');
+const {middlewareGlobal, checkCsrfError, crfMiddleware} = require('./src/middlewares/middlewares')
 
 app.use(express.urlencoded({extended:true})) //precisa disso ou vai vir como undefined e nao vai ser tratado
-app.use(express.static(path.resolve(__dirname,'public')))
+app.use(express.static(path.resolve(__dirname,'public')));
+app.use(express.json())
+app.use(helmet()); // oq o .use quer dizers
+
+
+const sessionOptions = session({
+    secret: "uiuiuii",
+    store: MongoStore.create({ 
+        mongoUrl: process.env.connectionString 
+    }),
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 7,
+        httpOnly: true
+    }
+});
+app.use(sessionOptions);
+app.use(flash());
+
 // express.static('public') expõe o CONTEÚDO de public na raiz da URL — a pasta "public" em si não aparece no endereço (ex: public/assets/css/style.css → /assets/css/style.css)
 
 app.set('views',path.resolve(__dirname,'src','views'));
@@ -24,6 +49,9 @@ app.set('view engine', 'ejs');
 
 
 // rotas de midleware
+app.use(csrf());
+app.use(crfMiddleware)
+app.use(checkCsrfError);
 app.use(middlewareGlobal) //todas as requisições vao passar aqui
 app.use(routes);
 
