@@ -1,0 +1,169 @@
+===================================
+EJS - RESUMO PARA REVISÃO
+===================================
+
+O QUE É?
+--------
+EJS (Embedded JavaScript) NÃO é biblioteca de banco de dados nem
+framework de servidor -- é um TEMPLATE ENGINE (motor de templates).
+
+Serve pra gerar páginas HTML DINÂMICAS no servidor, misturando HTML
+normal com pedacinhos de JavaScript. Em vez de montar HTML na mão
+concatenando strings, você escreve um arquivo quase igual a HTML,
+com "buracos" especiais onde entram dados vindos do servidor.
+
+Exemplo simples de arquivo .ejs:
+  <h1>Olá, <%= nome %>!</h1>
+
+Se o servidor mandar nome = "Maria", o EJS gera:
+  <h1>Olá, Maria!</h1>
+
+Isso é chamado de SSR (Server-Side Rendering) -- o HTML já vem pronto
+do servidor, diferente de frameworks como React, que montam a página
+no navegador.
+
+
+INSTALAÇÃO
+------------
+npm install ejs
+
+
+TAGS (a sintaxe do EJS -- ISSO É O MAIS IMPORTANTE DE DECORAR)
+--------------------------------------------------------------------
+
+<%   ... %>   -> Roda JavaScript, mas NÃO mostra nada na tela.
+                 Usado pra lógica: if, for, variáveis, etc.
+
+<%=  ... %>   -> Roda JavaScript e MOSTRA o resultado na tela.
+                 O texto é ESCAPADO (protege contra HTML malicioso).
+                 Use pra mostrar dados normais (nome, texto, número).
+
+<%-  ... %>   -> Roda JavaScript e MOSTRA o resultado SEM escapar.
+                 Usado quando o valor já é HTML de verdade (ex: ao
+                 incluir outro template) e você QUER que o HTML
+                 renderize como HTML, não como texto puro.
+
+<%#  ... %>   -> Comentário. Não roda nada, não aparece em lugar
+                 nenhum no resultado final.
+
+<%%           -> Mostra um "<%" literal na tela (escape da própria
+                 sintaxe do EJS).
+
+
+POR QUE EXISTE ESSA DIFERENÇA ENTRE <%= E <%- ?
+------------------------------------------------------
+- <%= escapa o conteúdo -> transforma caracteres especiais de HTML
+  (como < > &) em código seguro. Protege contra ataques (alguém
+  digitar <script> num formulário, por exemplo).
+- <%- NÃO escapa -> renderiza o HTML de verdade. Só use quando você
+  TEM CERTEZA que o conteúdo é HTML confiável (ex: incluir outro
+  arquivo .ejs).
+
+Regra prática: use <%= pra dados (nome, texto, número).
+              Use <%- só pra includes/HTML que você mesmo controla.
+
+
+EXEMPLO COM LÓGICA (if / for)
+------------------------------------
+<% if (usuario) { %>
+  <h2><%= usuario.nome %></h2>
+<% } else { %>
+  <p>Nenhum usuário logado</p>
+<% } %>
+
+<ul>
+  <% produtos.forEach(function(produto) { %>
+    <li><%= produto.nome %> - R$ <%= produto.preco %></li>
+  <% }); %>
+</ul>
+
+Repare: as tags <% %> (sem = ou -) são usadas pra abrir/fechar
+estruturas de controle (if, for, forEach), sem gerar saída visual.
+As tags <%= %> dentro do loop é que realmente imprimem o valor.
+
+
+USANDO EJS COM EXPRESS (o uso mais comum)
+------------------------------------------------
+1) Instalar o EJS:
+   npm install ejs
+
+2) Configurar o Express pra usar EJS como "view engine":
+   const express = require('express');
+   const app = express();
+
+   app.set('view engine', 'ejs');
+   // por padrão, o Express procura os arquivos .ejs numa pasta
+   // chamada "views" na raiz do projeto
+
+3) Criar o arquivo views/index.ejs:
+   <!DOCTYPE html>
+   <html>
+     <head><title>Minha página</title></head>
+     <body>
+       <h1>Olá, <%= nome %>!</h1>
+     </body>
+   </html>
+
+4) Renderizar esse arquivo numa rota, passando os dados:
+   app.get('/', (req, res) => {
+     res.render('index', { nome: 'Maria' });
+   });
+
+   res.render(nomeDoArquivo, dadosParaPreencherOTemplate) //modelo
+   -> o Express procura views/index.ejs, preenche com os dados
+      passados, e manda o HTML já pronto pro navegador.
+
+⚠️ IMPORTANTE (aviso da própria doc oficial): nunca passe dados do
+usuário direto sem validar, tipo:
+   app.get('/', (req, res) => {
+     res.render('index', req.query); // PERIGOSO
+   });
+EJS executa JavaScript de verdade -- se você deixar o usuário
+controlar o que é renderizado sem cuidado, isso vira brecha de
+segurança.
+
+
+INCLUDES (reaproveitando pedaços de template)
+------------------------------------------------
+Serve pra não repetir código -- tipo um cabeçalho ou rodapé usado em
+várias páginas.
+
+  <%- include('header'); -%>
+  <h1>Título da página</h1>
+  <p>Conteúdo...</p>
+  <%- include('footer'); -%>
+
+Detalhes:
+- O caminho do include é relativo ao arquivo atual.
+- Usa-se <%- (sem escapar) porque o conteúdo incluído já é HTML de
+  verdade, e você quer que ele renderize como tal.
+- EJS não tem um sistema de "blocks"/"layouts" pronto como outros
+  motores de template -- pra montar um layout reaproveitável, o
+  jeito é compor a página com includes de header/footer, como no
+  exemplo acima.
+
+Passando dados pro include:
+  <%- include('user/show', { user: usuario }); %>
+
+
+RESUMO DAS TAGS (pra fixar rapidinho)
+------------------------------------------
+<%   %>   ->  roda JS, não mostra nada        (lógica: if, for)
+<%=  %>   ->  roda JS, mostra ESCAPADO        (dado comum)
+<%-  %>   ->  roda JS, mostra SEM escapar     (HTML confiável, includes)
+<%#  %>   ->  comentário, não faz nada
+
+
+RESUMO EM UMA FRASE
+----------------------
+EJS é um template engine que gera HTML dinâmico no servidor,
+misturando HTML normal com JavaScript dentro de tags especiais
+(<% %>, <%= %>, <%- %>), sendo muito usado junto com Express através
+de res.render() pra preencher páginas com dados vindos do backend.
+
+
+LINKS ÚTEIS
+--------------
+- Site oficial: https://ejs.co/
+- Repositório (GitHub): https://github.com/mde/ejs
+- EJS + Express (wiki oficial): https://github.com/mde/ejs/wiki/Using-EJS-with-Express

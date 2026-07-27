@@ -3,16 +3,16 @@
 const path = require('path'); // commomJS
 // tem que exportar esse aruqivo para quem está de fora poder usar
 
-module.exports={ //tudo que tiver aqui vai ser exportado
+module.exports={ 
     mode:'development' ,
-    entry:'./frontend/index.js' ,//aquivo de entrad,
+    entry:'./frontend/index.js' ,//aquivo de entrada, onde vai começar
     output:{
         path:path.resolve(__dirname,'public', 'assets', 'js'),
-        filename:'bundle.js'
+        filename:'bundle.js' // local de saida
     },
     module:{
     rules:[{
-    exclude:/node_modules/, //webpack nao vai analisar o node
+    exclude:/node_modules/, //webpack nao vai analisar o node modules
     test: /\.js$/ ,
     use:{
         loader:'babel-loader',
