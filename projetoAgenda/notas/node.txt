@@ -1,0 +1,156 @@
+===================================
+NODE.JS - RESUMO PARA REVISÃO
+===================================
+
+O QUE É?
+--------
+Node.js é um ambiente de execução (runtime) que permite rodar JavaScript
+FORA do navegador — em servidores, terminal, scripts, etc.
+Ele usa o motor V8 (o mesmo do Chrome) pra executar o código JS.
+
+Antes do Node, JS só rodava dentro do navegador. Com ele, dá pra criar
+servidores, APIs, ferramentas de linha de comando, e por aí vai.
+
+
+SISTEMA DE MÓDULOS
+--------------------
+Node suporta 2 formatos de módulo:
+
+1) COMMONJS (padrão histórico do Node)
+   const fs = require('fs'); (fs significa File System (sistema de arquivos) — é um módulo nativo do Node.js (não precisa instalar nada, já vem pronto)
+    que permite seu código JS interagir com arquivos e pastas do computador/servidor.)
+   module.exports = minhaFuncao;
+   exports.algo = () => {};
+
+2) ES MODULES (padrão moderno da linguagem JS)
+   import fs from 'fs';
+   export default minhaFuncao;
+   export const algo = () => {};
+
+   Pra ativar ESM no Node, precisa de: 
+   - "type": "module" no package.json, OU
+   - nomear o arquivo como .mjs
+
+Resumo: CommonJS é mais antigo mas ainda muito usado (Node clássico,
+Express); ES Modules é o padrão atual da linguagem.
+ESM = ECMAScript Modules (também chamado de "ES Modules").
+ É só o nome oficial/completo do sistema de módulos que a gente já viu com import/export.
+
+PRINCIPAIS MÓDULOS NATIVOS (built-in)
+----------------------------------------
+
+fs (File System)
+  - Ler, escrever, criar e deletar arquivos/pastas.
+  - Tem 3 versões de cada método:
+    fs.readFile(...)       -> assíncrono com callback
+    fs.readFileSync(...)   -> síncrono (bloqueia o código)
+    fs/promises            -> versão com Promise (usa com async/await)
+
+  Exemplo:
+    const fs = require('fs/promises');
+    const data = await fs.readFile('arquivo.txt', 'utf8');
+
+path
+  - Manipula caminhos de arquivos/pastas de forma segura entre
+    sistemas operacionais diferentes (Windows usa \ , Linux/Mac usa /).
+  - path.resolve(__dirname, 'dist')  -> monta caminho absoluto
+  - path.join('pasta', 'arquivo.js') -> junta pedaços de caminho
+  - path.extname('foto.png')         -> retorna '.png'
+
+http
+  - Módulo nativo pra criar servidores web (sem framework).
+  - Base sobre a qual frameworks como Express são construídos.
+
+  Exemplo básico:
+    const http = require('http');
+    const server = http.createServer((req, res) => {
+      res.end('Olá mundo');
+    });
+    server.listen(3000);
+
+process
+  - Informações e controle sobre o processo Node em execução.
+  - process.env       -> variáveis de ambiente (ex: chaves de API)
+  - process.argv      -> argumentos passados no terminal
+  - process.exit()    -> encerra o processo
+
+events (EventEmitter)
+  - Sistema de eventos: permite "emitir" e "escutar" eventos
+    customizados dentro da aplicação.
+
+  Exemplo:
+    const EventEmitter = require('events');
+    const emitter = new EventEmitter();
+    emitter.on('mensagem', (txt) => console.log(txt));
+    emitter.emit('mensagem', 'oi!');
+
+os
+  - Informações do sistema operacional (memória, CPU, etc).
+
+
+NPM (Node Package Manager)
+-----------------------------
+Gerenciador de pacotes que vem junto com o Node. Usado pra instalar
+bibliotecas de terceiros (como express, webpack, etc).
+
+  npm init          -> cria o package.json do zero
+  npm install pacote (ou npm i pacote) -> instala uma dependência
+  npm install -D pacote -> instala como dependência de desenvolvimento
+  npm run script    -> roda um script definido no package.json
+
+package.json
+  - Arquivo de configuração do projeto: nome, versão, dependências,
+    scripts, e o campo "type" (module ou commonjs).
+
+package-lock.json
+  - Trava as versões exatas de cada dependência instalada, garantindo
+    que o projeto instale sempre as mesmas versões em qualquer máquina.
+
+node_modules
+  - Pasta onde ficam todas as dependências instaladas. Nunca deve ir
+    pro Git (fica no .gitignore).
+
+
+ASSINCRONISMO NO NODE
+------------------------
+Node é single-threaded (uma thread só) mas não-bloqueante, graças ao
+Event Loop. Ele consegue lidar com várias operações (leitura de
+arquivo, requisições de rede) "ao mesmo tempo" sem travar o código.
+
+3 formas de lidar com código assíncrono:
+
+1) Callback (mais antigo)
+   fs.readFile('a.txt', (err, data) => { ... });
+
+2) Promise
+   fs.promises.readFile('a.txt').then(data => { ... });
+
+3) Async/Await (mais moderno e legível)
+   const data = await fs.promises.readFile('a.txt');
+
+
+COMO LER A DOCUMENTAÇÃO OFICIAL (nodejs.org/docs)
+-----------------------------------------------------
+- Cada módulo nativo tem sua própria página (fs, path, http, etc).
+- Assinaturas de método seguem o padrão:
+    metodo(param1[, param2], callback)
+    -> [colchetes] = parâmetro opcional
+- Cada método mostra "Added in: vX.X.X" -> versão do Node em que
+  aquilo foi introduzido. Sempre conferir se bate com a sua versão
+  (checar com: node -v no terminal).
+- Fique atento ao nome do método: "Sync" no final = versão síncrona;
+  módulo "/promises" = versão com Promise.
+
+
+RESUMO EM UMA FRASE
+----------------------
+Node.js é um ambiente que roda JavaScript fora do navegador, com
+módulos nativos pra lidar com arquivos, servidores e processos, um
+sistema de pacotes (npm) pra usar bibliotecas de terceiros, e um
+modelo assíncrono não-bloqueante baseado em Event Loop.
+
+
+LINKS ÚTEIS
+--------------
+- Doc oficial: https://nodejs.org/docs/latest/api/
+- npm: https://docs.npmjs.com/

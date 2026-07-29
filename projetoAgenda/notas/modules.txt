@@ -1,0 +1,43 @@
+// ========================================
+// module.exports vs exports - DIFERENÇAS
+// ========================================
+
+// Todo arquivo .js no Node tem um objeto "module" com uma propriedade "exports"
+// Por padrão, module.exports já começa como um objeto vazio: {}
+// "exports" é apenas um ATALHO (uma variável) que aponta pro mesmo objeto que module.exports
+
+// ----------------------------------------
+// 1) module.exports = algumaCoisa
+// ----------------------------------------
+// SUBSTITUI TUDO. Troca o objeto inteiro por outra coisa (função, classe, string, etc)
+// module.exports = (req, res) => { ... }
+// Resultado do require(): a própria função
+// Uso: route.get('/', homeController)
+
+
+// ----------------------------------------
+// 2) exports.nome = algumaCoisa
+// ----------------------------------------
+// ADICIONA uma propriedade dentro do objeto que já existe em module.exports
+// (é o mesmo que escrever module.exports.nome = algumaCoisa)
+// exports.paginaInicial = (req, res) => { ... }
+// Resultado do require(): um objeto → { paginaInicial: [Function] }
+// Uso: route.get('/', homeController.paginaInicial)
+
+
+// ----------------------------------------
+// 3) exports = algumaCoisa  →  NÃO FUNCIONA
+// ----------------------------------------
+// Isso so reatribui a variável local "exports" pra apontar pra outra coisa,
+// mas quebra a ligação dela com module.exports
+// module.exports continua sendo o objeto {} original (vazio)
+// Resultado do require(): objeto vazio {} (a mudança se perde)
+
+
+// ----------------------------------------
+// REGRA PRÁTICA
+// ----------------------------------------
+// Quer exportar 1 função/classe sozinha  → module.exports = funcao
+// Quer exportar várias funções juntas    → exports.nomeA = ... / exports.nomeB = ...
+//                                           (ou module.exports = { nomeA, nomeB })
+Cada require() importa apenas o module.exports daquele arquivo específico, sem misturar com o de outro:

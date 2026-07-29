@@ -1,0 +1,297 @@
+========================================
+EXPRESS + EXPRESS-SESSION - RESUMO PARA REVISÃO
+========================================
+
+PARTE 1: EXPRESS
+========================================
+
+O QUE É?
+--------
+Express é um framework (biblioteca) pra Node.js que facilita a
+criação de servidores web e APIs. Ele roda em cima do módulo nativo
+`http` do Node, mas simplifica MUITO o trabalho de lidar com rotas,
+requisições, respostas e middlewares.
+
+Sem Express, criar rotas usando só o `http` puro do Node é bem mais
+verboso e manual. O Express organiza tudo isso de forma simples.
+
+
+INSTALAÇÃO
+------------
+npm install express
+
+
+ESTRUTURA BÁSICA DE UM SERVIDOR EXPRESS
+-------------------------------------------
+const express = require('express');
+const app = express(); 
+
+app.get('/', (req, res) => {
+  res.send('Olá mundo');
+});
+
+app.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
+});
+
+- `express()` -> cria a aplicação
+- `app.get(...)` -> define uma rota pra requisições GET
+- `app.listen(porta)` -> inicia o servidor, "escutando" naquela porta
+
+
+REQ E RES (os dois objetos mais usados)
+-------------------------------------------
+Toda rota recebe (req, res):
+
+req (request) -> representa a requisição que chegou
+Pensa nele como uma carta que chegou pro servidor, com informações de quem mandou e o que quer.
+  req.params   -> parâmetros da URL (ex: /usuario/:id)
+  req.query    -> parâmetros de query string (ex: ?busca=algo)
+  req.body     -> dados enviados no corpo da requisição (POST/PUT)
+  req.session  -> dados da sessão do usuário (vem do express-session)
+
+res (response) -> usado pra responder a requisição
+É a resposta que o seu código vai devolver pro navegador/cliente. É "o que o servidor está respondendo pro usuário".
+  res.send(texto)     -> envia uma resposta simples
+  res.json(objeto)    -> envia uma resposta em JSON
+  res.status(codigo)  -> define o status HTTP (ex: 404, 500)
+  res.redirect(url)   -> redireciona pra outra rota/página
+
+
+MÉTODOS HTTP MAIS USADOS
+----------------------------
+app.get(rota, handler)     -> buscar dados
+app.post(rota, handler)    -> criar dados
+app.put(rota, handler)     -> atualizar dados (completo)
+app.patch(rota, handler)   -> atualizar dados (parcial)
+app.delete(rota, handler)  -> deletar dados
+
+app.use() serve pra registrar um middleware na sua aplicação — ou seja, 
+uma função que vai rodar em toda requisição (ou em requisições que combinam com um caminho específico), 
+antes de chegar na rota final.
+
+MIDDLEWARE (conceito CENTRAL do Express)
+---------------------------------------------
+Middleware é uma função que roda ENTRE a requisição chegar e a
+resposta ser enviada. Ela pode modificar req/res, validar algo, ou
+simplesmente passar pra frente.
+
+Formato de um middleware:
+  (req, res, next) => { ... }
+
+O `next()` é o que diz "terminei, pode seguir pro próximo passo".
+Se você esquecer de chamar next() (ou enviar uma resposta), a
+requisição fica travada, sem resposta.
+
+Exemplo de middleware customizado:
+  app.use((req, res, next) => {
+    console.log('Uma requisição chegou:', req.method, req.url);
+    next();
+  });
+
+Middlewares nativos mais usados:
+  express.json()        -> permite ler JSON enviado no corpo (req.body)
+  express.urlencoded()  -> permite ler dados de formulário (form HTML)
+  express.static(pasta) -> serve arquivos estáticos (CSS, imagens, etc)
+
+Exemplo:
+  app.use(express.json());
+  app.use(express.static('public'));
+
+Middlewares de terceiros (instalados via npm) também seguem esse
+mesmo formato -- é assim que o express-session funciona também!
+
+
+ROTEAMENTO COM PARÂMETROS
+------------------------------
+app.get('/usuario/:id', (req, res) => {
+  const id = req.params.id;
+  res.send('Usuário: ' + id);
+});
+
+
+Se acessar /usuario/5, req.params.id vai ser "5".
+
+
+ORGANIZANDO ROTAS EM ARQUIVOS SEPARADOS (Router)
+------------------------------------------------------
+Em projetos maiores, não fica tudo num arquivo só. Usa-se
+express.Router() pra separar rotas por assunto.
+
+  // rotas/usuarios.js
+  const express = require('express');
+  const router = express.Router();
+
+  router.get('/', (req, res) => { res.send('lista de usuários'); });
+
+  module.exports = router;
+
+  // app.js (arquivo principal)
+  const usuariosRouter = require('./rotas/usuarios');
+  app.use('/usuarios', usuariosRouter);
+
+
+PADRÃO CONTROLLER (separar lógica das rotas)
+-------------------------------------------------
+  // controllers/usuarioController.js  (CommonJS)
+  exports.paginaInicial = (req, res) => {
+    res.send('obrigado por entrar em contato');
+  };
+
+  // rotas/usuarios.js
+  const controller = require('../controllers/usuarioController');
+  router.get('/', controller.paginaInicial);
+
+
+========================================
+PARTE 2: EXPRESS-SESSION
+========================================
+
+O QUE É?
+--------
+express-session é um MIDDLEWARE do Express (segue exatamente o
+formato (req, res, next) explicado acima) que permite ao servidor
+"lembrar" de um usuário entre requisições diferentes -- por exemplo,
+manter alguém logado enquanto navega pelo site.
+
+Sem sessão, cada requisição HTTP é isolada e o servidor não sabe
+quem é quem.
+
+
+INSTALAÇÃO
+------------
+npm install express-session
+
+
+COMO FUNCIONA (o essencial)
+-------------------------------
+- Os dados da sessão NÃO ficam salvos no cookie.
+- O cookie guarda só o ID da sessão (tipo um "crachá").
+- Os dados de verdade (nome do usuário, se está logado, etc) ficam
+  armazenados do lado do SERVIDOR, associados aquele ID.
+
+Formato do cookie gerado (chamado connect.sid por padrão):
+  connect.sid=s:ID_DA_SESSAO.ASSINATURA
+
+A assinatura é gerada usando a chave "secret" configurada, garantindo
+que ninguém consiga forjar/adulterar o ID da sessão.
+
+
+USO BÁSICO
+------------
+const session = require('express-session');
+
+app.use(session({
+  secret: 'sua-chave-secreta',
+  resave: false,
+  saveUninitialized: true
+}));
+
+Repare: assim como express.json() e express.static(), o session()
+também é registrado com app.use() -- porque é um middleware!
+
+
+PRINCIPAIS OPÇÕES (options object)
+--------------------------------------
+
+secret (obrigatório)
+  - Chave usada pra assinar o cookie da sessão.
+  - Deve ser uma string aleatória e privada (nunca deixar exposta em
+    código público / GitHub).
+
+resave
+  - Se true, força salvar a sessão de volta no armazenamento mesmo
+    que ela não tenha sido modificada na requisição.
+  - Recomendado: false.
+
+saveUninitialized
+  - Se true, salva uma sessão "nova" mesmo que nada tenha sido
+    modificado nela ainda.
+  - Útil para casos como: página de login antes do usuário logar.
+
+cookie
+  - Objeto com configurações do cookie da sessão. Ex:
+    cookie: {
+      maxAge: 1000 * 60 * 60,  // tempo de vida em ms (aqui: 1 hora)
+      secure: true,              // só envia cookie via HTTPS
+      httpOnly: true             // impede acesso via JS no navegador
+    }
+
+
+USANDO A SESSÃO DENTRO DAS ROTAS (req.session)
+----------------------------------------------------
+Depois de configurado o middleware, toda rota tem acesso a
+req.session, um objeto onde você pode guardar qualquer dado:
+
+  app.post('/login', (req, res) => {
+    req.session.usuarioId = usuario.id;
+    req.session.logado = true;
+    res.send('Login feito!');
+  });
+
+  app.get('/perfil', (req, res) => {
+    if (req.session.logado) {
+      res.send('Bem-vindo, usuário ' + req.session.usuarioId);
+    } else {
+      res.send('Você não está logado');
+    }
+  });
+
+Métodos úteis de req.session:
+  req.session.destroy()  -> encerra a sessão (ex: logout)
+  req.session.save()     -> força salvar a sessão manualmente
+  req.sessionID          -> ID único da sessão atual
+
+
+⚠️ AVISO IMPORTANTE DA DOC OFICIAL
+--------------------------------------
+O armazenamento padrão (MemoryStore) NÃO é feito pra produção:
+  - Vaza memória na maioria das condições
+  - Não escala além de um único processo
+  - Serve só pra debug/desenvolvimento
+
+Pra produção de verdade, é necessário trocar por um "store" externo,
+que salva as sessões em um banco de dados (Redis, MongoDB, etc), em
+vez de guardar tudo na memória do processo Node.
+
+
+========================================
+COMO OS DOIS SE CONECTAM
+========================================
+Express-session é só mais um middleware rodando dentro do Express,
+igual express.json() ou express.static(). A diferença é que ele
+adiciona a propriedade `req.session` em toda requisição, permitindo
+guardar e recuperar dados do usuário entre uma requisição e outra.
+
+  const express = require('express');
+  const session = require('express-session');
+
+  const app = express();
+
+  app.use(express.json());
+  app.use(session({
+    secret: 'sua-chave-secreta',
+    resave: false,
+    saveUninitialized: true
+  }));
+
+  app.get('/', (req, res) => {
+    res.send('req.session já está disponível aqui!');
+  });
+
+  app.listen(3000);
+
+
+RESUMO EM UMA FRASE
+----------------------
+Express é o framework que organiza rotas, requisições e middlewares
+em Node.js; express-session é um middleware que se encaixa nesse
+fluxo pra guardar dados do usuário no servidor e identificá-lo entre
+requisições através de um cookie com ID assinado.
+
+
+LINKS ÚTEIS
+--------------
+- Doc oficial Express: https://expressjs.com/
+- Doc oficial express-session: https://expressjs.com/en/resources/middleware/session/
+- Repositório express-session (GitHub): https://github.com/expressjs/session

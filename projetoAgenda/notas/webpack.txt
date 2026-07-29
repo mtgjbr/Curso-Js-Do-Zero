@@ -1,0 +1,99 @@
+===================================
+WEBPACK - RESUMO PARA REVISÃO
+===================================
+
+O QUE É?
+--------
+Webpack é um "module bundler" (empacotador de módulos) para JavaScript.
+Ele pega todos os arquivos do projeto (JS, CSS, imagens, etc), entende
+as dependências entre eles e junta tudo em um ou poucos arquivos finais
+(bundles) prontos para rodar no navegador.
+
+Por que existe:Navegadores não entendiam módulos (import/require) de
+forma nativa por muito tempo, e mesmo hoje é mais performático servir
+poucos arquivos otimizados do que centenas de arquivos separados.
+
+
+CONCEITOS-CHAVE (os 5 pilares)
+-------------------------------
+
+1. ENTRY (entrada)
+   - Arquivo onde o Webpack começa a "montar o mapa" de dependências.
+   - Ex: ./src/index.js
+   - Configuração: entry: './src/index.js'
+
+2. OUTPUT (saída)
+   - Onde e com qual nome o bundle final vai ser salvo.
+   - Configuração:
+     output: {
+       filename: 'bundle.js',
+       path: path.resolve(__dirname, 'dist')
+     }
+
+3. LOADERS
+   - Webpack só entende JS e JSON nativamente.
+   - Loaders transformam outros tipos de arquivo (CSS, imagens, TS, etc)
+     em algo que o Webpack consiga processar.
+   - Exemplos comuns:
+     - babel-loader → converte JS moderno/JSX para JS compatível
+     - css-loader / style-loader → permite importar CSS no JS
+     - file-loader / asset modules → lida com imagens e fontes
+   - Configurados dentro de module.rules
+
+4. PLUGINS
+   - Fazem coisas que loaders não fazem: otimizar bundles, gerar HTML
+     automaticamente, limpar pasta de build, definir variáveis de
+     ambiente, etc.
+   - Exemplos comuns:
+     - HtmlWebpackPlugin → gera o index.html automaticamente
+     - CleanWebpackPlugin → limpa a pasta dist antes de cada build
+     - MiniCssExtractPlugin → extrai CSS para arquivo separado
+
+5. MODE
+   - Define o ambiente de build: 'development' ou 'production'
+   - development → build mais rápido, sem minificação, bom pra debugar
+   - production → minifica e otimiza o código final
+
+
+ESTRUTURA BÁSICA DE UM webpack.config.js
+------------------------------------------
+const path = require('path');
+
+module.exports = {
+  mode: 'development',
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  module: {
+    rules: [
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] }, // se esse arquivo for .css, use esses loader nele
+      { test: /\.js$/, exclude: /node_modules/, use: 'babel-loader' }, // se esse arquivo for .js e NAO FOR da pasta node modules, entao use esses loarder nele
+    ],
+  },
+  plugins: [
+    // instâncias de plugins aqui
+  ],
+};
+
+
+OUTROS TERMOS IMPORTANTES
+--------------------------
+- Bundle: arquivo final gerado, com tudo empacotado.
+- Dependency Graph: mapa de dependências que o Webpack monta a partir
+  do entry point, seguindo cada import/require.
+- Code Splitting: dividir o bundle em pedaços menores, carregados sob
+  demanda, pra melhorar performance (ex: import() dinâmico).
+- Tree Shaking: remove código JS que não está sendo usado (dead code)
+  do bundle final. Funciona melhor com módulos ES (import/export).
+- Webpack Dev Server: servidor local com hot reload, usado durante o
+  desenvolvimento (não gera arquivos físicos, serve tudo da memória).
+- HMR (Hot Module Replacement): atualiza módulos no navegador sem
+  precisar recarregar a página inteira.
+
+RESUMO EM UMA FRASE
+--------------------
+Webpack pega vários arquivos e dependências do seu projeto, processa
+eles com loaders, aplica plugins pra otimizações extras, e entrega um
+(ou mais) arquivo(s) finais prontos pra rodar no navegador.
