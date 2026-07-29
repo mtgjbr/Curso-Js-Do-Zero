@@ -1,20 +1,19 @@
 const Login = require('../models/loginModel')
 
 exports.index = (req,res)=>{
-    res.render('login')
+    if(req.session.user) return res.render('login-logado')
+    return res.render('login')
 }
 
 exports.register =async function(req,res){
     try{
-          console.log('CHEGOU NO REGISTER')
+          
         const login = new Login(req.body)
-        
         await login.register()
-        console.log('TERMINOU O REGISTER, ERROS:', login.errors)
         if(login.errors.length>0){
             req.flash('errors',login.errors);
             req.session.save(function(){
-                console.log('SESSION SALVA')
+                
                 return  res.redirect('/login/index');
             })
             return
@@ -29,4 +28,37 @@ exports.register =async function(req,res){
         console.log(e)
         res.render('404') //porque nao preciso do caminho completo
     }
+}
+
+exports.login =async function(req,res){
+    try{
+          
+        const login = new Login(req.body)
+        await login.login()
+        if(login.errors.length>0){
+            req.flash('errors',login.errors);
+            req.session.save(function(){
+                
+                return  res.redirect('/login/index');
+            })
+            return
+        }
+        
+
+
+          req.flash('success','Você entrou no Sistema');
+          req.session.user = login.user;
+            req.session.save(function(){
+                return  res.redirect('/login/index');
+            })
+        
+    }catch(e){
+        console.log(e)
+        res.render('404') //porque nao preciso do caminho completo
+    }
+};
+
+exports.logout = function(req,res){
+    req.session.destroy();
+    res.redirect('/')
 }
