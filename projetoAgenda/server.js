@@ -21,14 +21,21 @@ const csrf = require('csurf')
 const helmet = require('helmet');
 const {middlewareGlobal, checkCsrfError, csrfMiddleware} = require('./src/middlewares/middlewares')
 
-app.use(express.urlencoded({extended:true})) //precisa disso ou vai vir como undefined e nao vai ser tratado
-app.use(express.static(path.resolve(__dirname,'public')));
-app.use(express.json())
-//app.use(helmet()); // oq o .use quer dizers
-app.use(helmet({
+app.use(express.urlencoded({extended:true})) // 1º: lê dados de formulário
+//precisa disso ou vai vir como undefined e nao vai ser tratado
+app.use(express.static(path.resolve(__dirname,'public')));   // 2º: serve arquivos da pasta public para todos
+app.use(express.json())  // 3º: lê dados em JSON
+//express.json() lê o corpo da requisição quando vem em formato JSON e transforma em objeto, disponibilizando em req.body — sem ele, req.body fica undefined pra esse tipo de requisição.
+//.use serve para triggar os midwares,tudo q for app.use (app é o frameword express) vai ser executado em todas as rotas
+app.use(helmet({  // 4º: adiciona headers de segurança
     contentSecurityPolicy: false
 }));
+// session() cria um sistema de "memória" entre requisições:
+//  ele salva dados do usuário (como o ID de quem está logado) no MongoDB, 
+// e identifica cada usuário através de um cookie enviado ao navegador — assim o servidor 
+// "lembra" quem está logado mesmo em requisições diferentes.
 
+// 5º: ativa sessão do usuário
 const sessionOptions = session({
     secret: "uiuiuii",
     store: MongoStore.create({ 
@@ -42,19 +49,23 @@ const sessionOptions = session({
     }
 });
 app.use(sessionOptions);
+                                // 6º: ativa mensagens temporárias
 app.use(flash());
 
 // express.static('public') expõe o CONTEÚDO de public na raiz da URL — a pasta "public" em si não aparece no endereço (ex: public/assets/css/style.css → /assets/css/style.css)
 
 app.set('views',path.resolve(__dirname,'src','views'));
+//Esse app.set('views', ...) diz pro Express: "toda vez que alguém chamar res.render(), procure os arquivos dentro dessa pasta". Então o Express já sabe que a "raiz" das views é src/views/. 
+//      Por isso você só precisa passar o nome do arquivo ('404'), e ele monta o caminho completo sozinho: src/views/404.ejs.
 app.set('view engine', 'ejs');
 
 
 // rotas de midleware
-app.use(csrf());
+app.use(csrf()); // 7º: proteção anti-CSRF
 app.use(csrfMiddleware)
 app.use(checkCsrfError);
 app.use(middlewareGlobal) //todas as requisições vao passar aqui
+    // por último: só agora vai pra rotas
 app.use(routes);
 
 app.on('pronto', ()=>{

@@ -11,19 +11,15 @@ const contatoSchema = new mongoose.Schema({
 })
 
 
-const contatoModel = mongoose.model('contato', contatoSchema)
+const contatoModel = mongoose.model('contato', contatoSchema);
+//Essa linha pega a "planta" (contatoSchema) e diz pro Mongoose: "construa uma ferramenta pra eu poder criar,
+//  buscar, editar e deletar documentos que sigam essa planta, numa coleção do MongoDB chamada 'contato'".
 
-function Contato(body) { //oq seria esse body
-    this.body = body
+function Contato(body) { //oq seria esse body:body é o objeto com os dados que vieram do formulário
+    this.body = body;
     this.errors = [];
     this.contato = null;
 
-}
-
-Contato.buscaPorId =async function(id){
-    if(typeof  id !== 'string') return
- const user = await contatoModel.findById(id)
- return user
 }
 
 Contato.prototype.register =  async function () {
@@ -66,6 +62,25 @@ Contato.prototype.edit = async function (id){
     this.valida();
     if(this.errors.length >0)return
     this.contato = await contatoModel.findByIdAndUpdate(id,this.body, {new:true})
+}
+
+//metodos estaticos
+Contato.buscaPorId =async function(id){
+    if(typeof  id !== 'string') return
+ const user = await contatoModel.findById(id)
+ return user
+}
+
+Contato.buscaPorContatos =async function(){
+    
+ const contatos = await contatoModel.find()
+ .sort({criadoEm:-1})
+ return contatos
+}
+Contato.delete =async function(id){
+     if(typeof  id !== 'string') return
+ const contato = await contatoModel.findByIdAndDelete({_id:id}); //_id é o nome padrão do campo de identificador único que o MongoDB cria automaticamente em todo documento
+ return contato
 }
 
 module.exports = Contato;

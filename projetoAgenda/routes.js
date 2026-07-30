@@ -11,8 +11,8 @@ const {loginRequired} = require('./src/middlewares/middlewares.js')
 route.get('/',homeController.index);
 
 //Rotas de Login
-route.get('/login/index',loginController.index) //porque pode omitir qual a pasta que deixou suas coisas em publico
-route.post('/login/register',loginController.register) //porque com post
+route.get('/login/index',loginController.index) // ta usando a class importada
+route.post('/login/register',loginController.register) //porque com post:pq ta enviando dados pro servidor
 route.post('/login/login',loginController.login);
 route.get('/login/logout',loginController.logout);
 
@@ -22,6 +22,7 @@ route.get('/contato/index',loginRequired, contatoController.index);
 route.post('/contato/register',loginRequired, contatoController.register);
 route.get('/contato/index/:id',loginRequired, contatoController.editIndex);
 route.post('/contato/edit/:id',loginRequired, contatoController.edit);
+route.get('/contato/delete/:id',loginRequired, contatoController.delete);
 
 
 module.exports = route; //oq seria isso

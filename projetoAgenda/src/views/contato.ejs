@@ -11,27 +11,31 @@
             <%- include('includes/messages') %>
 
             <%if(contato._id){  %>
-         <form action="/contato/edit/<%=contato._id  %>" method="post">
+         <form class="contato-edit" action="/contato/edit/<%=contato._id  %>" method="post">
             <% }else{%>
-           <form action="/contato/register" method="post">
+           <form class="contato-register"   action="/contato/register" method="post">
 
                 <% }%>
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <div class="form-group">
                                     <label >Nome</label>
                                     <input value="<%= contato.nome %>" type="text" class="form-control" name="nome">
+                                    <div class="error-nome"></div>
                                 </div>
                                 <div class="form-group">
                                     <label >Sobrenome</label>
                                     <input value="<%= contato.sobrenome %>" type="text" class="form-control" name="sobrenome">
+                                    <div class="error-sobrenome"></div>
                                 </div>
                                 <div class="form-group">
                                     <label >Email</label>
                                     <input value="<%= contato.email %>" type="email" class="form-control" name="email">
+                                    <div class="error-email"></div>
                                 </div>
                                 <div class="form-group">
                                     <label >Telefone</label>
                                     <input value="<%= contato.telefone   %>" type="tel" class="form-control" name="telefone">
+                                    <div class="error-telefone"></div>
                                 </div>
                                  
                                 <button type="submit" class="btn btn-primary">Salvar</button>
